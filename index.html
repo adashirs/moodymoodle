@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Reaction-Diffusion — Gray-Scott</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap">
+<style>
+  :root {
+    --bg:        #0F172A;
+    --teal:      #0891B2;
+    --orange:    #F97316;
+    --ink:       #e8eef2;
+    --ink-dim:   #8aa1ad;
+    --panel:     #14213a;
+    --line:      #20304a;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; background:var(--bg); color:var(--ink); font-family:'Nunito', system-ui, sans-serif; min-height:100vh; }
+  body { display:flex; flex-direction:row; align-items:flex-start; justify-content:center; gap:24px; padding:24px; flex-wrap:wrap; }
+
+  .stage {
+    position:relative;
+    background:#000;
+    border-radius:6px;
+    overflow:hidden;
+    box-shadow: 0 10px 50px rgba(0,0,0,0.5), 0 0 0 1px var(--line) inset;
+  }
+  canvas#c { display:block; width:600px; height:600px; image-rendering: pixelated; cursor: crosshair; }
+  .hint {
+    position:absolute; bottom:8px; left:10px;
+    font-size:11px; color: rgba(255,255,255,0.45);
+    letter-spacing: 0.5px;
+    pointer-events:none;
+    font-family: 'Courier New', monospace;
+  }
+
+  .panel {
+    width: 280px;
+    background: var(--panel);
+    border-radius: 6px;
+    padding: 18px 18px 22px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+  }
+  .panel h1 {
+    margin:0 0 4px;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--orange);
+  }
+  .panel h2 {
+    margin: 16px 0 8px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--teal);
+  }
+  .panel p.intro {
+    margin: 4px 0 14px;
+    font-size: 11px;
+    line-height: 1.5;
+    color: var(--ink-dim);
+  }
+
+  .presets { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+  .presets button {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 7px 4px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .presets button:hover { border-color: var(--teal); color: var(--teal); }
+  .presets button.active { background: var(--teal); color: var(--bg); border-color: var(--teal); }
+
+  .slider-row {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 24px 1fr 56px;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+  }
+  .slider-row label { color: var(--ink-dim); font-family: 'Courier New', monospace; }
+  .slider-row .val { color: var(--orange); font-family: 'Courier New', monospace; text-align: right; }
+  input[type="range"] { width: 100%; accent-color: var(--teal); }
+
+  .row-buttons { display: flex; gap: 8px; margin-top: 14px; }
+  .row-buttons button {
+    flex: 1;
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 8px 0;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .row-buttons button:hover { border-color: var(--orange); color: var(--orange); }
+
+  .note {
+    margin-top: 14px;
+    padding: 10px 12px;
+    background: rgba(8, 145, 178, 0.08);
+    border-left: 2px solid var(--teal);
+    border-radius: 3px;
+    font-size: 10.5px;
+    line-height: 1.5;
+    color: var(--ink-dim);
+  }
+  .note strong { color: var(--teal); }
+
+  @media (max-width: 920px) {
+    canvas#c { width: 90vw; height: 90vw; max-width: 480px; max-height: 480px; }
+    .panel { width: 90vw; max-width: 480px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <canvas id="c" width="600" height="600"></canvas>
+  <div class="hint">click + drag the canvas to seed new patterns</div>
+</div>
+
+<div class="panel">
+  <h1>Gray-Scott</h1>
+  <p class="intro">Two chemicals, U and V. U is fed in at rate F; V is removed at rate F + k; both diffuse. Watch the stripes decide whether to branch.</p>
+
+  <h2>Presets</h2>
+  <div class="presets" id="presets"></div>
+
+  <h2>Parameters</h2>
+  <div class="slider-row">
+    <label>F</label>
+    <input type="range" id="fSlider" min="0.01" max="0.08" step="0.0005">
+    <span class="val" id="fVal">0.0367</span>
+  </div>
+  <div class="slider-row">
+    <label>k</label>
+    <input type="range" id="kSlider" min="0.04" max="0.075" step="0.0005">
+    <span class="val" id="kVal">0.0649</span>
+  </div>
+  <div class="slider-row">
+    <label>spd</label>
+    <input type="range" id="speedSlider" min="1" max="40" step="1">
+    <span class="val" id="speedVal">12</span>
+  </div>
+
+  <div class="row-buttons">
+    <button id="pauseBtn">Pause</button>
+    <button id="resetBtn">Reset</button>
+  </div>
+
+  <div class="note">
+    Tiny moves on the sliders make big differences. The map of F&times;k space is mostly dead; the living strip is narrow. Wander it slowly. <strong>Spots</strong> bud and divide. <strong>Stripes</strong> drift and branch. <strong>Coral</strong> grows outward forever. <strong>Worms</strong> wander.
+  </div>
+</div>
+
+<script>
+const W = 220, H = 220;
+const N = W * H;
+
+let U  = new Float32Array(N);
+let V  = new Float32Array(N);
+let Un = new Float32Array(N);
+let Vn = new Float32Array(N);
+
+const Du = 0.16;
+const Dv = 0.08;
+const dt = 1.0;
+
+const PRESETS = [
+  { name: 'spots',   F: 0.0367, k: 0.0649 },
+  { name: 'stripes', F: 0.022,  k: 0.051  },
+  { name: 'mazes',   F: 0.029,  k: 0.057  },
+  { name: 'coral',   F: 0.0545, k: 0.062  },
+  { name: 'worms',   F: 0.046,  k: 0.063  },
+  { name: 'mitosis', F: 0.0367, k: 0.0649 },
+];
+
+let F = 0.0367;
+let k = 0.0649;
+let stepsPerFrame = 12;
+let running = true;
+
+function init() {
+  for (let i = 0; i < N; i++) { U[i] = 1; V[i] = 0; }
+  seedAt(W >> 1, H >> 1, 8);
+}
+
+function seedAt(cx, cy, r) {
+  for (let y = -r; y <= r; y++) {
+    for (let x = -r; x <= r; x++) {
+      if (x*x + y*y > r*r) continue;
+      const xx = (cx + x + W) % W;
+      const yy = (cy + y + H) % H;
+      const i = yy * W + xx;
+      V[i] = 1;
+      U[i] = 0.5;
+    }
+  }
+}
+
+function step() {
+  // toroidal boundaries — wrap with modulo
+  for (let y = 0; y < H; y++) {
+    const yu = (y - 1 + H) % H;
+    const yd = (y + 1) % H;
+    for (let x = 0; x < W; x++) {
+      const xl = (x - 1 + W) % W;
+      const xr = (x + 1) % W;
+      const i  = y  * W + x;
+      const iu = yu * W + x;
+      const id = yd * W + x;
+      const il = y  * W + xl;
+      const ir = y  * W + xr;
+
+      const u = U[i];
+      const v = V[i];
+      const lapU = U[il] + U[ir] + U[iu] + U[id] - 4 * u;
+      const lapV = V[il] + V[ir] + V[iu] + V[id] - 4 * v;
+      const uvv  = u * v * v;
+
+      Un[i] = u + (Du * lapU - uvv + F * (1 - u)) * dt;
+      Vn[i] = v + (Dv * lapV + uvv - (F + k) * v) * dt;
+    }
+  }
+  // swap
+  let tmp;
+  tmp = U; U = Un; Un = tmp;
+  tmp = V; V = Vn; Vn = tmp;
+}
+
+const cnv = document.getElementById('c');
+const ctx = cnv.getContext('2d');
+const off = document.createElement('canvas');
+off.width = W; off.height = H;
+const offCtx = off.getContext('2d');
+const imgData = offCtx.createImageData(W, H);
+const dArr = imgData.data;
+
+// palette stops: deep navy bg → teal → orange → near-white
+// V near 0 = bg, V mid = teal, V high = orange-white
+function lerp(a, b, t) { return a + (b - a) * t; }
+function colourFor(v) {
+  // v expected 0..1, but can exceed slightly
+  v = Math.max(0, Math.min(1, v * 1.8));
+  if (v < 0.4) {
+    const t = v / 0.4;
+    return [ Math.round(lerp(15, 8, t)), Math.round(lerp(23, 145, t)), Math.round(lerp(42, 178, t)) ];
+  } else if (v < 0.75) {
+    const t = (v - 0.4) / 0.35;
+    return [ Math.round(lerp(8, 249, t)), Math.round(lerp(145, 115, t)), Math.round(lerp(178, 22, t)) ];
+  } else {
+    const t = (v - 0.75) / 0.25;
+    return [ Math.round(lerp(249, 255, t)), Math.round(lerp(115, 240, t)), Math.round(lerp(22, 200, t)) ];
+  }
+}
+
+function render() {
+  for (let i = 0; i < N; i++) {
+    const c = colourFor(V[i]);
+    const di = i * 4;
+    dArr[di]   = c[0];
+    dArr[di+1] = c[1];
+    dArr[di+2] = c[2];
+    dArr[di+3] = 255;
+  }
+  offCtx.putImageData(imgData, 0, 0);
+  ctx.imageSmoothingEnabled = false;
+  ctx.drawImage(off, 0, 0, cnv.width, cnv.height);
+}
+
+function loop() {
+  if (running) for (let s = 0; s < stepsPerFrame; s++) step();
+  render();
+  requestAnimationFrame(loop);
+}
+
+// presets UI
+const presetsEl = document.getElementById('presets');
+PRESETS.forEach((p, idx) => {
+  const b = document.createElement('button');
+  b.textContent = p.name;
+  if (idx === 0) b.classList.add('active');
+  b.onclick = () => {
+    F = p.F; k = p.k;
+    document.getElementById('fSlider').value = F;
+    document.getElementById('kSlider').value = k;
+    document.getElementById('fVal').textContent = F.toFixed(4);
+    document.getElementById('kVal').textContent = k.toFixed(4);
+    document.querySelectorAll('.presets button').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    init();
+  };
+  presetsEl.appendChild(b);
+});
+
+// sliders
+const fSlider = document.getElementById('fSlider');
+const kSlider = document.getElementById('kSlider');
+const speedSlider = document.getElementById('speedSlider');
+fSlider.value = F; kSlider.value = k; speedSlider.value = stepsPerFrame;
+fSlider.oninput = () => { F = parseFloat(fSlider.value); document.getElementById('fVal').textContent = F.toFixed(4); document.querySelectorAll('.presets button').forEach(x => x.classList.remove('active')); };
+kSlider.oninput = () => { k = parseFloat(kSlider.value); document.getElementById('kVal').textContent = k.toFixed(4); document.querySelectorAll('.presets button').forEach(x => x.classList.remove('active')); };
+speedSlider.oninput = () => { stepsPerFrame = parseInt(speedSlider.value); document.getElementById('speedVal').textContent = stepsPerFrame; };
+
+// buttons
+const pauseBtn = document.getElementById('pauseBtn');
+pauseBtn.onclick = () => { running = !running; pauseBtn.textContent = running ? 'Pause' : 'Play'; };
+document.getElementById('resetBtn').onclick = () => init();
+
+// click & drag seeding
+let drawing = false;
+function canvasToGrid(ev) {
+  const rect = cnv.getBoundingClientRect();
+  const x = Math.floor(((ev.clientX - rect.left) / rect.width) * W);
+  const y = Math.floor(((ev.clientY - rect.top)  / rect.height) * H);
+  return [x, y];
+}
+cnv.addEventListener('mousedown', e => { drawing = true; const [x,y] = canvasToGrid(e); seedAt(x, y, 4); });
+cnv.addEventListener('mousemove', e => { if (!drawing) return; const [x,y] = canvasToGrid(e); seedAt(x, y, 3); });
+window.addEventListener('mouseup',   () => drawing = false);
+cnv.addEventListener('touchstart', e => { e.preventDefault(); const t = e.touches[0]; const [x,y] = canvasToGrid(t); seedAt(x,y,4); drawing = true; }, {passive:false});
+cnv.addEventListener('touchmove',  e => { e.preventDefault(); if (!drawing) return; const t = e.touches[0]; const [x,y] = canvasToGrid(t); seedAt(x,y,3); }, {passive:false});
+cnv.addEventListener('touchend',   () => drawing = false);
+
+init();
+loop();
+</script>
+
+</body>
+</html>
