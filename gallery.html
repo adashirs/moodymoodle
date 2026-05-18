@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inspiration Gallery — Upcycled Pitch</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+  :root {
+    --bg:       #0F172A;
+    --bg-soft:  #14213a;
+    --teal:     #0891B2;
+    --orange:   #F97316;
+    --ink:      #e8eef2;
+    --ink-dim:  #8aa1ad;
+    --line:     #20304a;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; background: var(--bg); color: var(--ink); font-family: 'Nunito', system-ui, sans-serif; min-height: 100vh; }
+  body { line-height: 1.5; }
+
+  header {
+    padding: 32px 24px 18px;
+    text-align: center;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, #14213a 0%, var(--bg) 100%);
+  }
+  header .kicker {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange);
+    font-weight: 700;
+  }
+  header h1 {
+    margin: 6px 0 4px;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.4px;
+    color: var(--ink);
+  }
+  header p {
+    max-width: 640px;
+    margin: 8px auto 0;
+    font-size: 13.5px;
+    color: var(--ink-dim);
+  }
+  header .back {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 6px 14px;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--teal);
+    border: 1px solid var(--teal);
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+  header .back:hover { background: var(--teal); color: var(--bg); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    padding: 18px;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  .card {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 4px;
+    background: var(--bg-soft);
+    text-decoration: none;
+    color: var(--ink);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    border: 1px solid var(--line);
+  }
+  .card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.85);
+    transition: transform 0.4s ease, filter 0.25s ease;
+    display: block;
+  }
+  .card .cap {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 8px 10px 9px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--ink);
+    background: linear-gradient(180deg, transparent 0%, rgba(15,23,42,0.85) 60%, rgba(15,23,42,0.95) 100%);
+    transform: translateY(100%);
+    transition: transform 0.25s ease;
+    letter-spacing: 0.2px;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.45), 0 0 0 1px var(--orange) inset;
+    z-index: 2;
+  }
+  .card:hover img {
+    transform: scale(1.06);
+    filter: saturate(1.1);
+  }
+  .card:hover .cap {
+    transform: translateY(0);
+  }
+
+  /* on touch devices: show caption permanently because there's no hover */
+  @media (hover: none) {
+    .card .cap { transform: translateY(0); }
+    .card img { filter: saturate(1); }
+  }
+
+  footer {
+    padding: 20px;
+    text-align: center;
+    font-size: 11px;
+    color: var(--ink-dim);
+    border-top: 1px solid var(--line);
+    margin-top: 20px;
+    letter-spacing: 0.5px;
+  }
+  footer a { color: var(--teal); text-decoration: none; }
+  footer a:hover { color: var(--orange); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">BUT2 GEII · S4 · TP Upcycling</div>
+  <h1>Inspiration Gallery</h1>
+  <p>A glimpse of what salvaged components can become. Not a list of what to copy — a nudge to look at resistors, capacitors and wires as raw material, not waste. Click any image to see it full-size; hover (or tap) for the title.</p>
+  <a class="back" href="index.html">↩ Gray-Scott playground</a>
+</header>
+
+<div class="grid">
+    <a class="card" href="images/Alcoholics.jpg" target="_blank" rel="noopener"><img src="images/Alcoholics.jpg" alt="Alcoholics" loading="lazy"><span class="cap">Alcoholics</span></a>
+    <a class="card" href="images/AlienResistorIsFutile.jpg" target="_blank" rel="noopener"><img src="images/AlienResistorIsFutile.jpg" alt="AlienResistorIsFutile" loading="lazy"><span class="cap">AlienResistorIsFutile</span></a>
+    <a class="card" href="images/BBQ.jpg" target="_blank" rel="noopener"><img src="images/BBQ.jpg" alt="BBQ" loading="lazy"><span class="cap">BBQ</span></a>
+    <a class="card" href="images/Backswing%20golf.jpg" target="_blank" rel="noopener"><img src="images/Backswing%20golf.jpg" alt="Backswing golf" loading="lazy"><span class="cap">Backswing golf</span></a>
+    <a class="card" href="images/Baseball.jpg" target="_blank" rel="noopener"><img src="images/Baseball.jpg" alt="Baseball" loading="lazy"><span class="cap">Baseball</span></a>
+    <a class="card" href="images/BugEyed.jpg" target="_blank" rel="noopener"><img src="images/BugEyed.jpg" alt="BugEyed" loading="lazy"><span class="cap">BugEyed</span></a>
+    <a class="card" href="images/Camp%20out.jpg" target="_blank" rel="noopener"><img src="images/Camp%20out.jpg" alt="Camp out" loading="lazy"><span class="cap">Camp out</span></a>
+    <a class="card" href="images/Capacitor%20Motorcycle.jpg" target="_blank" rel="noopener"><img src="images/Capacitor%20Motorcycle.jpg" alt="Capacitor Motorcycle" loading="lazy"><span class="cap">Capacitor Motorcycle</span></a>
+    <a class="card" href="images/ChangingBarils.jpg" target="_blank" rel="noopener"><img src="images/ChangingBarils.jpg" alt="ChangingBarils" loading="lazy"><span class="cap">ChangingBarils</span></a>
+    <a class="card" href="images/ChasingCreepyCrawlies.jpg" target="_blank" rel="noopener"><img src="images/ChasingCreepyCrawlies.jpg" alt="ChasingCreepyCrawlies" loading="lazy"><span class="cap">ChasingCreepyCrawlies</span></a>
+    <a class="card" href="images/CtrlAltDel.jpg" target="_blank" rel="noopener"><img src="images/CtrlAltDel.jpg" alt="CtrlAltDel" loading="lazy"><span class="cap">CtrlAltDel</span></a>
+    <a class="card" href="images/DogWalker.jpg" target="_blank" rel="noopener"><img src="images/DogWalker.jpg" alt="DogWalker" loading="lazy"><span class="cap">DogWalker</span></a>
+    <a class="card" href="images/Eddy%20Current%2C_The%20Metal%20Detectorist.jpg" target="_blank" rel="noopener"><img src="images/Eddy%20Current%2C_The%20Metal%20Detectorist.jpg" alt="Eddy Current, The Metal Detectorist" loading="lazy"><span class="cap">Eddy Current, The Metal Detectorist</span></a>
+    <a class="card" href="images/Explorer.jpg" target="_blank" rel="noopener"><img src="images/Explorer.jpg" alt="Explorer" loading="lazy"><span class="cap">Explorer</span></a>
+    <a class="card" href="images/Fencing.jpg" target="_blank" rel="noopener"><img src="images/Fencing.jpg" alt="Fencing" loading="lazy"><span class="cap">Fencing</span></a>
+    <a class="card" href="images/Fight.jpg" target="_blank" rel="noopener"><img src="images/Fight.jpg" alt="Fight" loading="lazy"><span class="cap">Fight</span></a>
+    <a class="card" href="images/Flamenco.jpg" target="_blank" rel="noopener"><img src="images/Flamenco.jpg" alt="Flamenco" loading="lazy"><span class="cap">Flamenco</span></a>
+    <a class="card" href="images/Flying%20carousel.jpg" target="_blank" rel="noopener"><img src="images/Flying%20carousel.jpg" alt="Flying carousel" loading="lazy"><span class="cap">Flying carousel</span></a>
+    <a class="card" href="images/Gardening.jpg" target="_blank" rel="noopener"><img src="images/Gardening.jpg" alt="Gardening" loading="lazy"><span class="cap">Gardening</span></a>
+    <a class="card" href="images/Having%20a%20beer.jpg" target="_blank" rel="noopener"><img src="images/Having%20a%20beer.jpg" alt="Having a beer" loading="lazy"><span class="cap">Having a beer</span></a>
+    <a class="card" href="images/Hawaii%20hula%20girls.jpg" target="_blank" rel="noopener"><img src="images/Hawaii%20hula%20girls.jpg" alt="Hawaii hula girls" loading="lazy"><span class="cap">Hawaii hula girls</span></a>
+    <a class="card" href="images/Hedge%20trimming.jpg" target="_blank" rel="noopener"><img src="images/Hedge%20trimming.jpg" alt="Hedge trimming" loading="lazy"><span class="cap">Hedge trimming</span></a>
+    <a class="card" href="images/Hunting.jpg" target="_blank" rel="noopener"><img src="images/Hunting.jpg" alt="Hunting" loading="lazy"><span class="cap">Hunting</span></a>
+    <a class="card" href="images/ItsMineNoItsMine.jpg" target="_blank" rel="noopener"><img src="images/ItsMineNoItsMine.jpg" alt="ItsMineNoItsMine" loading="lazy"><span class="cap">ItsMineNoItsMine</span></a>
+    <a class="card" href="images/Jinrikisha.jpg" target="_blank" rel="noopener"><img src="images/Jinrikisha.jpg" alt="Jinrikisha" loading="lazy"><span class="cap">Jinrikisha</span></a>
+    <a class="card" href="images/Kid%20on%20a%20swing.jpg" target="_blank" rel="noopener"><img src="images/Kid%20on%20a%20swing.jpg" alt="Kid on a swing" loading="lazy"><span class="cap">Kid on a swing</span></a>
+    <a class="card" href="images/LedZep.jpg" target="_blank" rel="noopener"><img src="images/LedZep.jpg" alt="LedZep" loading="lazy"><span class="cap">LedZep</span></a>
+    <a class="card" href="images/McFly_BTTF2.jpg" target="_blank" rel="noopener"><img src="images/McFly_BTTF2.jpg" alt="McFly BTTF2" loading="lazy"><span class="cap">McFly BTTF2</span></a>
+    <a class="card" href="images/Off%20the%20blocks.jpg" target="_blank" rel="noopener"><img src="images/Off%20the%20blocks.jpg" alt="Off the blocks" loading="lazy"><span class="cap">Off the blocks</span></a>
+    <a class="card" href="images/Office%20work.jpg" target="_blank" rel="noopener"><img src="images/Office%20work.jpg" alt="Office work" loading="lazy"><span class="cap">Office work</span></a>
+    <a class="card" href="images/RadioGagaGogo.jpg" target="_blank" rel="noopener"><img src="images/RadioGagaGogo.jpg" alt="RadioGagaGogo" loading="lazy"><span class="cap">RadioGagaGogo</span></a>
+    <a class="card" href="images/Raising%20the%20flag.jpg" target="_blank" rel="noopener"><img src="images/Raising%20the%20flag.jpg" alt="Raising the flag" loading="lazy"><span class="cap">Raising the flag</span></a>
+    <a class="card" href="images/Scorpio.jpg" target="_blank" rel="noopener"><img src="images/Scorpio.jpg" alt="Scorpio" loading="lazy"><span class="cap">Scorpio</span></a>
+    <a class="card" href="images/Slalom%20race.jpg" target="_blank" rel="noopener"><img src="images/Slalom%20race.jpg" alt="Slalom race" loading="lazy"><span class="cap">Slalom race</span></a>
+    <a class="card" href="images/StickMen_VS_Spider.jpg" target="_blank" rel="noopener"><img src="images/StickMen_VS_Spider.jpg" alt="StickMen VS Spider" loading="lazy"><span class="cap">StickMen VS Spider</span></a>
+    <a class="card" href="images/Table-tennis.jpg" target="_blank" rel="noopener"><img src="images/Table-tennis.jpg" alt="Table tennis" loading="lazy"><span class="cap">Table tennis</span></a>
+    <a class="card" href="images/Tai%20chi.jpg" target="_blank" rel="noopener"><img src="images/Tai%20chi.jpg" alt="Tai chi" loading="lazy"><span class="cap">Tai chi</span></a>
+    <a class="card" href="images/Tank.jpg" target="_blank" rel="noopener"><img src="images/Tank.jpg" alt="Tank" loading="lazy"><span class="cap">Tank</span></a>
+    <a class="card" href="images/TravoltaStayingAlive.jpg" target="_blank" rel="noopener"><img src="images/TravoltaStayingAlive.jpg" alt="TravoltaStayingAlive" loading="lazy"><span class="cap">TravoltaStayingAlive</span></a>
+    <a class="card" href="images/WallE.jpg" target="_blank" rel="noopener"><img src="images/WallE.jpg" alt="WallE" loading="lazy"><span class="cap">WallE</span></a>
+    <a class="card" href="images/WiredMan.jpg" target="_blank" rel="noopener"><img src="images/WiredMan.jpg" alt="WiredMan" loading="lazy"><span class="cap">WiredMan</span></a>
+    <a class="card" href="images/Xylophonist.jpg" target="_blank" rel="noopener"><img src="images/Xylophonist.jpg" alt="Xylophonist" loading="lazy"><span class="cap">Xylophonist</span></a>
+    <a class="card" href="images/accordion.jpg" target="_blank" rel="noopener"><img src="images/accordion.jpg" alt="Accordion" loading="lazy"><span class="cap">Accordion</span></a>
+    <a class="card" href="images/ballerina.jpg" target="_blank" rel="noopener"><img src="images/ballerina.jpg" alt="Ballerina" loading="lazy"><span class="cap">Ballerina</span></a>
+    <a class="card" href="images/bike.jpg" target="_blank" rel="noopener"><img src="images/bike.jpg" alt="Bike" loading="lazy"><span class="cap">Bike</span></a>
+    <a class="card" href="images/bird.jpg" target="_blank" rel="noopener"><img src="images/bird.jpg" alt="Bird" loading="lazy"><span class="cap">Bird</span></a>
+    <a class="card" href="images/bow_arrow.jpg" target="_blank" rel="noopener"><img src="images/bow_arrow.jpg" alt="Bow arrow" loading="lazy"><span class="cap">Bow arrow</span></a>
+    <a class="card" href="images/butterfly2.jpg" target="_blank" rel="noopener"><img src="images/butterfly2.jpg" alt="Butterfly2" loading="lazy"><span class="cap">Butterfly2</span></a>
+    <a class="card" href="images/butterlly.jpg" target="_blank" rel="noopener"><img src="images/butterlly.jpg" alt="Butterlly" loading="lazy"><span class="cap">Butterlly</span></a>
+    <a class="card" href="images/cat.jpg" target="_blank" rel="noopener"><img src="images/cat.jpg" alt="Cat" loading="lazy"><span class="cap">Cat</span></a>
+    <a class="card" href="images/cellos.jpg" target="_blank" rel="noopener"><img src="images/cellos.jpg" alt="Cellos" loading="lazy"><span class="cap">Cellos</span></a>
+    <a class="card" href="images/chess-set-for-tesla-1.jpg" target="_blank" rel="noopener"><img src="images/chess-set-for-tesla-1.jpg" alt="Chess set for tesla 1" loading="lazy"><span class="cap">Chess set for tesla 1</span></a>
+    <a class="card" href="images/cooking.jpg" target="_blank" rel="noopener"><img src="images/cooking.jpg" alt="Cooking" loading="lazy"><span class="cap">Cooking</span></a>
+    <a class="card" href="images/coupleOnABench.jpg" target="_blank" rel="noopener"><img src="images/coupleOnABench.jpg" alt="CoupleOnABench" loading="lazy"><span class="cap">CoupleOnABench</span></a>
+    <a class="card" href="images/cute.jpg" target="_blank" rel="noopener"><img src="images/cute.jpg" alt="Cute" loading="lazy"><span class="cap">Cute</span></a>
+    <a class="card" href="images/dinner%20for%20two.jpg" target="_blank" rel="noopener"><img src="images/dinner%20for%20two.jpg" alt="Dinner for two" loading="lazy"><span class="cap">Dinner for two</span></a>
+    <a class="card" href="images/fishing.jpg" target="_blank" rel="noopener"><img src="images/fishing.jpg" alt="Fishing" loading="lazy"><span class="cap">Fishing</span></a>
+    <a class="card" href="images/funambulist.jpg" target="_blank" rel="noopener"><img src="images/funambulist.jpg" alt="Funambulist" loading="lazy"><span class="cap">Funambulist</span></a>
+    <a class="card" href="images/golfer.jpg" target="_blank" rel="noopener"><img src="images/golfer.jpg" alt="Golfer" loading="lazy"><span class="cap">Golfer</span></a>
+    <a class="card" href="images/gunfighters.jpg" target="_blank" rel="noopener"><img src="images/gunfighters.jpg" alt="Gunfighters" loading="lazy"><span class="cap">Gunfighters</span></a>
+    <a class="card" href="images/harpist.jpg" target="_blank" rel="noopener"><img src="images/harpist.jpg" alt="Harpist" loading="lazy"><span class="cap">Harpist</span></a>
+    <a class="card" href="images/hopscotch.jpg" target="_blank" rel="noopener"><img src="images/hopscotch.jpg" alt="Hopscotch" loading="lazy"><span class="cap">Hopscotch</span></a>
+    <a class="card" href="images/horsey.jpg" target="_blank" rel="noopener"><img src="images/horsey.jpg" alt="Horsey" loading="lazy"><span class="cap">Horsey</span></a>
+    <a class="card" href="images/kids%20watching%20tv.jpg" target="_blank" rel="noopener"><img src="images/kids%20watching%20tv.jpg" alt="Kids watching tv" loading="lazy"><span class="cap">Kids watching tv</span></a>
+    <a class="card" href="images/l-e-d-zeppelin.jpg" target="_blank" rel="noopener"><img src="images/l-e-d-zeppelin.jpg" alt="L e d zeppelin" loading="lazy"><span class="cap">L e d zeppelin</span></a>
+    <a class="card" href="images/littlesoldiers.jpg" target="_blank" rel="noopener"><img src="images/littlesoldiers.jpg" alt="Littlesoldiers" loading="lazy"><span class="cap">Littlesoldiers</span></a>
+    <a class="card" href="images/nerdwatch.jpg" target="_blank" rel="noopener"><img src="images/nerdwatch.jpg" alt="Nerdwatch" loading="lazy"><span class="cap">Nerdwatch</span></a>
+    <a class="card" href="images/notebook.jpg" target="_blank" rel="noopener"><img src="images/notebook.jpg" alt="Notebook" loading="lazy"><span class="cap">Notebook</span></a>
+    <a class="card" href="images/other_pool.jpg" target="_blank" rel="noopener"><img src="images/other_pool.jpg" alt="Other pool" loading="lazy"><span class="cap">Other pool</span></a>
+    <a class="card" href="images/painting.jpg" target="_blank" rel="noopener"><img src="images/painting.jpg" alt="Painting" loading="lazy"><span class="cap">Painting</span></a>
+    <a class="card" href="images/piano.jpg" target="_blank" rel="noopener"><img src="images/piano.jpg" alt="Piano" loading="lazy"><span class="cap">Piano</span></a>
+    <a class="card" href="images/plane.jpg" target="_blank" rel="noopener"><img src="images/plane.jpg" alt="Plane" loading="lazy"><span class="cap">Plane</span></a>
+    <a class="card" href="images/poleVaulting.jpg" target="_blank" rel="noopener"><img src="images/poleVaulting.jpg" alt="PoleVaulting" loading="lazy"><span class="cap">PoleVaulting</span></a>
+    <a class="card" href="images/pool.jpg" target="_blank" rel="noopener"><img src="images/pool.jpg" alt="Pool" loading="lazy"><span class="cap">Pool</span></a>
+    <a class="card" href="images/pringboard.jpg" target="_blank" rel="noopener"><img src="images/pringboard.jpg" alt="Pringboard" loading="lazy"><span class="cap">Pringboard</span></a>
+    <a class="card" href="images/readingBook.jpg" target="_blank" rel="noopener"><img src="images/readingBook.jpg" alt="ReadingBook" loading="lazy"><span class="cap">ReadingBook</span></a>
+    <a class="card" href="images/ring.jpg" target="_blank" rel="noopener"><img src="images/ring.jpg" alt="Ring" loading="lazy"><span class="cap">Ring</span></a>
+    <a class="card" href="images/seesaw.jpg" target="_blank" rel="noopener"><img src="images/seesaw.jpg" alt="Seesaw" loading="lazy"><span class="cap">Seesaw</span></a>
+    <a class="card" href="images/startwars.jpg" target="_blank" rel="noopener"><img src="images/startwars.jpg" alt="Startwars" loading="lazy"><span class="cap">Startwars</span></a>
+    <a class="card" href="images/train.jpg" target="_blank" rel="noopener"><img src="images/train.jpg" alt="Train" loading="lazy"><span class="cap">Train</span></a>
+    <a class="card" href="images/window%20cleaner.jpg" target="_blank" rel="noopener"><img src="images/window%20cleaner.jpg" alt="Window cleaner" loading="lazy"><span class="cap">Window cleaner</span></a>
+</div>
+
+<footer>
+  <a href="index.html">Gray-Scott</a> &nbsp;·&nbsp; <a href="https://github.com/adashirs/moodymoodle">repo</a> &nbsp;·&nbsp; moodymoodle
+</footer>
+
+</body>
+</html>
